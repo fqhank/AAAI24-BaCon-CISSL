@@ -13,7 +13,7 @@ from semilearn.algorithms.utils import SSL_Argument,mixup_one_target
 import torch.nn.functional as F
 import torch.distributed as dist
 
-Projection_dim = 32
+Projection_dim = 16
 
 class Direct(nn.Module):
     def __init__(self):
@@ -189,7 +189,7 @@ class BaCon(ImbAlgorithmBase):
         proj_ulb_w, proj_ulb_s = feats_contra[num_lb:].chunk(2)
 
         contra_loss = torch.tensor(0).to(abc_loss.device)
-        if self.it>100000:
+        if self.it>150000:
             y_ulb = torch.max(abc_logits_x_ulb_w.softmax(-1),dim=-1)[1]
             contra_loss = self.contrastive_loss(
                 anchors = self.class_feat_center,
